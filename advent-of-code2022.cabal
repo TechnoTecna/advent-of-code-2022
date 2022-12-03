@@ -1,0 +1,40 @@
+cabal-version:      2.4
+name:               advent-of-code2022
+version:            0.1.0.0
+
+-- A short (one-line) description of the package.
+synopsis:           Haskell solutions to Advent of Code 2022
+
+-- A longer description of the package.
+-- description:
+
+-- A URL where users can report bugs.
+-- bug-reports:
+
+-- The license under which the package is released.
+-- license:
+
+-- The package author(s).
+author:             TechnoTecna
+
+-- An email address to which users can send suggestions, bug reports, and patches.
+-- maintainer:
+
+-- A copyright notice.
+-- copyright:
+-- category:
+-- extra-source-files: CHANGELOG.md
+
+executable aoc01
+    main-is:            AoC01.hs
+    other-modules:      Common Utils
+    build-depends:      base ^>=4.15.1.0
+    hs-source-dirs:     app
+    default-language:   Haskell2010
+
+executable aoc02
+    main-is:            AoC02.hs
+    other-modules:      Common Utils
+    build-depends:      base ^>=4.15.1.0
+    hs-source-dirs:     app
+    default-language:   Haskell2010
