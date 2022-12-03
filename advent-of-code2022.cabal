@@ -23,7 +23,7 @@ author:             Techno Tecna
 -- A copyright notice.
 -- copyright:
 -- category:
--- extra-source-files: CHANGELOG.md
+extra-source-files: README.md
 
 executable aoc01
     main-is:            AoC01.hs

@@ -32,9 +32,9 @@ moveOrder = [Rock, Paper, Scissors]
 result :: (Move, Move) -> Result
 result (mOp, mPl) =
   case U.rotate (fromJust $ elemIndex mPl moveOrder) moveOrder of
-    [m0, m1, m2] | m0 == mOp -> Draw
+    [m0, m1, m2] | m2 == mOp -> Win
                  | m1 == mOp -> Loss
-                 | m2 == mOp -> Win
+                 | m0 == mOp -> Draw
 
 mvPnts :: Move -> Int
 mvPnts m = fromJust $ lookup m [(Rock, 1), (Paper, 2), (Scissors, 3)]
