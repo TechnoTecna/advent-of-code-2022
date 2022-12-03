@@ -38,3 +38,10 @@ executable aoc02
     build-depends:      base ^>=4.15.1.0
     hs-source-dirs:     app
     default-language:   Haskell2010
+
+executable aoc03
+    main-is:            AoC03.hs
+    other-modules:      Common Utils
+    build-depends:      base ^>=4.15.1.0
+    hs-source-dirs:     app
+    default-language:   Haskell2010
