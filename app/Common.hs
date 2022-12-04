@@ -7,12 +7,9 @@ import System.IO (readFile)
 
 defMain :: (Show b, Show c) => (String -> a) -> (a -> b) -> (a -> c) -> IO()
 defMain rawToInput f1 f2 = do
-  args <- getArgs
-  raw <- readFile $ head args
-  let res1 = f1 $ rawToInput raw
-  let res2 = f2 $ rawToInput raw
-  print res1
-  print res2
+  raw <- readFile . head =<< getArgs
+  print <$> f1 $ rawToInput raw
+  print <$> f2 $ rawToInput raw
 
 testOn :: (Show a, Show b) => String -> (String -> a) -> (a -> b) -> IO()
 testOn path rawToInput f = do
