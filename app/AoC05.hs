@@ -73,8 +73,8 @@ oneMove :: [[Char]] -> (Int,Int,Int) -> [[Char]]
 oneMove stk (nb, frm, to) =
   -- We reverse the list of the crates we took to simulate moving them one by
   -- one
-  setList (to-1) (reverse took ++) -- ["", "DCM", "P"] -> ["", "DCM", "ZNDP"]
-  $ setList (frm-1) (drop nb) stk -- ["DNZ", "CM", "P"] -> ["", "DCM", "P"]
+  U.setList (to-1) (reverse took ++) -- ["", "DCM", "P"] -> ["", "DCM", "ZNDP"]
+  $ U.setList (frm-1) (drop nb) stk -- ["DNZ", "CM", "P"] -> ["", "DCM", "P"]
   where took = take nb (stk!!(frm-1)) -- crates taken from source stacks
 
 f1 :: Input -> Result1
