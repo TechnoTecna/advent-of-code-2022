@@ -92,8 +92,8 @@ type Result2 = [Char]
 -- Just like oneMove but we do not reverse taken crates before dropping them
 oneMove' :: [[Char]] -> (Int,Int,Int) -> [[Char]]
 oneMove' stk (nb, frm, to) =
-  setList (to-1) (took ++)
-  $ setList (frm-1) (drop nb) stk
+  U.setList (to-1) (took ++)
+  $ U.setList (frm-1) (drop nb) stk
   where took = take nb (stk!!(frm-1))
 
 -- Just like f1 but with oneMove' instead of oneMove
