@@ -8,9 +8,9 @@ import Utils as U
 -- Input parsing
 type Input = ([[Char]], [(Int, Int, Int)])
 
--- "    [D]\n
---  [N] [C]\n
---  [Z] [M] [P]"
+-- ["    [D]"
+-- ,"[N] [C]"
+-- ,"[Z] [M] [P]"]
 -- ->
 -- [['N', 'Z'], ['D', 'C', 'M'], ['P'], [], [], [], [], [], []]
 parseStacks :: [String] -> [[Char]]
