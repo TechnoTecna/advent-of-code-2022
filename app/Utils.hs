@@ -1,5 +1,5 @@
 module Utils
-  ( splitWhen, first, second, both, rotate)
+  ( splitWhen, first, second, both, rotate, chunksOf, setList )
   where
 
 splitWhen :: (a -> Bool) -> [a] -> [[a]]
@@ -21,3 +21,14 @@ both f (a1, a2) = (f a1, f a2)
 -- first)
 rotate :: Int -> [a] -> [a]
 rotate n l = uncurry (flip (++)) $ splitAt (n `mod` length l) l
+
+-- cut up a list in chunks of length n. For example:
+-- chunksOf 3 [1, 2, 3, 4, 5, 6, 7, 8] -> [[1, 2, 3], [4, 5, 6], [7, 8]]
+chunksOf :: Int -> [a] -> [[a]]
+chunksOf n [] = []
+chunksOf n l = take n l : chunksOf n (drop n l)
+
+-- Unsafe way to modify a list
+-- apply f to the nth element of the list
+setList :: Int -> (a -> a) -> [a] -> [a]
+setList n f l = take n l ++ [f (l!!n)] ++ drop (n+1) l

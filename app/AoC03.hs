@@ -3,6 +3,7 @@ module Main where
 import Common
 import Data.List (intersect, elemIndex)
 import Data.Maybe (fromJust)
+import Utils as U
 
 
 -- Input parsing
@@ -32,12 +33,6 @@ f1 =
 -- Part2
 type Result2 = Int
 
--- cut up a list in chunks of length n. For example:
--- chunksOf 3 [1, 2, 3, 4, 5, 6, 7, 8] -> [[1, 2, 3], [4, 5, 6], [7, 8]]
-chunksOf :: Int -> [a] -> [[a]]
-chunksOf n [] = []
-chunksOf n l = take n l : chunksOf n (drop n l)
-
 f2 :: Input -> Result2
 f2 =
   sum          -- [42, 18] -> 60
@@ -47,7 +42,7 @@ f2 =
       . foldr1 intersect -- ["vJrP", "jqHRPq", "Pm"] -> "P"
     )          -- [["vJrP", "jqHRPq", "Pm"], ["wMqrLMZ", "trgJ", "Cr"]] ->
                -- [42, 18]
-  . chunksOf 3 -- ["vJrP", "jqHRPq", "Pm", "wMqrLMZ", "trgJ", "Cr"] ->
+  . U.chunksOf 3 -- ["vJrP", "jqHRPq", "Pm", "wMqrLMZ", "trgJ", "Cr"] ->
                -- [["vJrP", "jqHRPq", "Pm"], ["wMqrLMZ", "trgJ", "Cr"]]
 
 -- Main
