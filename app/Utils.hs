@@ -1,5 +1,5 @@
 module Utils
-  ( splitWhen, first, second, both, rotate, chunksOf, setList )
+  ( splitWhen, first, second, both, rotate, chunksOf, setList, slidingWin )
   where
 
 splitWhen :: (a -> Bool) -> [a] -> [[a]]
@@ -32,3 +32,7 @@ chunksOf n l = take n l : chunksOf n (drop n l)
 -- apply f to the nth element of the list
 setList :: Int -> (a -> a) -> [a] -> [a]
 setList n f l = take n l ++ [f (l!!n)] ++ drop (n+1) l
+
+slidingWin :: Int -> [a] -> [[a]]
+slidingWin sz lst =
+  scanl (\acc x -> tail acc ++ [x]) (take sz lst) (drop sz lst)
