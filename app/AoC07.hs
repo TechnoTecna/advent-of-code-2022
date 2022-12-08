@@ -79,7 +79,6 @@ size (D _ lt) = SD (foldr f 0 slt) slt
         f (SF s) acc = s + acc
         f (SD s _) acc = s + acc
 
--- Let's say we have memoisation
 sizeDirList :: SizeTree -> [Int]
 sizeDirList (SD s lt) = s : concatMap sizeDirList lt
 sizeDirList _ = []
