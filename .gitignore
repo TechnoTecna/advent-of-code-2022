@@ -26,4 +26,4 @@ cabal.project.local
 cabal.project.local~
 .HTF/
 .ghc.environment.*
-app/AoC03mini.hs
+app/*mini*
