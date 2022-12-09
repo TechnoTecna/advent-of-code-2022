@@ -1,6 +1,12 @@
+{-# LANGUAGE GADTs #-}
+
 module Utils
-  ( splitWhen, first, second, both, rotate, chunksOf, setList, slidingWin )
+  ( splitWhen, first, second, both, rotate, chunksOf, setList, slidingWin,
+    {-Set (..), addS, elemS, toListS, fromListS, mapS,-} dumbNorm, fastNub )
   where
+
+import Data.List (sort, group)
+
 
 -- split a list everywhere `p` is true (discard the matched elements)
 -- (just like `split` in python).
@@ -45,3 +51,55 @@ setList n f l = take n l ++ [f (l!!n)] ++ drop (n+1) l
 slidingWin :: Int -> [a] -> [[a]]
 slidingWin sz lst =
   scanl (\acc x -> tail acc ++ [x]) (take sz lst) (drop sz lst)
+
+
+-- Set data type implemented as a tree (necesitate to have an order on youre
+-- type parameter)
+-- data Set a where
+--   Branch :: (Ord a, Eq a) => a -> Set a -> Set a -> Set a
+--   Leaf :: (Ord a, Eq a) => Set a
+
+-- instance (Show a) => Show (Set a) where
+--   show Leaf = "Lf"
+--   show (Branch x lft rgt) =
+--     show x ++ " (" ++ show lft ++ "), (" ++ show rgt ++ ")"
+
+-- addS :: a -> Set a -> Set a
+-- addS x Leaf = Branch x Leaf Leaf
+-- addS x b@(Branch x' lft rgt)
+--   | x == x' = b
+--   | x < x' = Branch x' (addS x lft) rgt
+--   | x > x' = Branch x' lft (addS x rgt)
+
+-- elemS :: a -> Set a -> Bool
+-- elemS x Leaf = False
+-- elemS x (Branch x' lft rgt)
+--   | x == x' = True
+--   | x < x' = elemS x lft
+--   | x > x' = elemS x rgt
+
+-- toListS :: Set a -> [a]
+-- toListS Leaf = []
+-- toListS (Branch x lft rgt) = x : toListS lft ++ toListS rgt
+
+-- fromListS :: Ord a => [a] -> Set a
+-- fromListS = foldl (flip addS) Leaf
+
+-- mapS :: (Ord a, Ord b) => (a -> b) -> Set a -> Set b
+-- mapS f Leaf = Leaf
+-- mapS f (Branch x lft rgt) = Branch (f x) (mapS f lft) (mapS f rgt)
+
+
+-- "normalise" a number to 1 or -1 (or 0 if 0). Usefull for "step by step"
+-- movement
+dumbNorm :: Int -> Int
+dumbNorm i =
+  case compare i 0 of
+    LT -> -1
+    EQ -> 0
+    GT -> 1
+
+-- Just like nub but only on type with an order and doesn't preserve list order.
+-- It has a Complexity of O(n log(n)) instead of O(n^2)
+fastNub :: (Ord a) => [a] -> [a]
+fastNub = map head . group . sort
