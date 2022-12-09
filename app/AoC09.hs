@@ -80,6 +80,8 @@ f2 input =
   -- use those positions as head position followed by 2 and so on util 9
   $ foldl (\x _ -> traceAll (0, 0) x)
           (toPos (0, 0) input) -- [(R,4),(U,4),(L,3), ...]
+          -- Note that the only usefull thing about this list is its length.
+          -- we discard its content.
           (replicate 9 [])     -- [[],[],[],[],[],[],[],[],[]]
 
 -- Main
