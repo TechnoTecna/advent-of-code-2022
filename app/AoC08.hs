@@ -74,11 +74,8 @@ forwardVis (h:t) = nbVis : forwardVis t
 -- - we zip with (*) instead of (||)
 -- - we fold with maximum instead of sum
 f2 :: Input -> Result2
-f2 patch =
-  maximum
-  $ map maximum
-  $ foldr1 (zipWith $ zipWith (*))
-    [west, east, north, south]
+f2 patch = maximum $ map maximum $ foldr1 (zipWith $ zipWith (*))
+           [west, east, north, south]
   where
     west = map forwardVis patch
     east = map (reverse . forwardVis . reverse) patch
