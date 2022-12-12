@@ -2,7 +2,8 @@
 
 module Utils
   ( splitWhen, first, second, both, rotate, chunksOf, setList, slidingWin,
-    {-Set (..), addS, elemS, toListS, fromListS, mapS,-} dumbNorm, fastNub )
+    {-Set (..), addS, elemS, toListS, fromListS, mapS,-} dumbNorm, fastNub,
+    fst3 )
   where
 
 import Data.List (sort, group)
@@ -103,3 +104,7 @@ dumbNorm i =
 -- It has a Complexity of O(n log(n)) instead of O(n^2)
 fastNub :: (Ord a) => [a] -> [a]
 fastNub = map head . group . sort
+
+-- Just like fst but for tuples of size 3
+fst3 :: (a, b, c) -> a
+fst3 (a, _, _) = a

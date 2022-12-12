@@ -94,3 +94,10 @@ executable aoc10
     build-depends:      base ^>=4.15.1.0
     hs-source-dirs:     app
     default-language:   Haskell2010
+
+executable aoc11
+    main-is:            AoC11.hs
+    other-modules:      Common Utils
+    build-depends:      base ^>=4.15.1.0
+    hs-source-dirs:     app
+    default-language:   Haskell2010
