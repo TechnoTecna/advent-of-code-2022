@@ -3,10 +3,11 @@
 module Utils
   ( splitWhen, first, second, both, rotate, chunksOf, setList, slidingWin,
     {-Set (..), addS, elemS, toListS, fromListS, mapS,-} dumbNorm, fastNub,
-    fst3 )
+    fst3, fixpoint, loop )
   where
 
 import Data.List (sort, group)
+import Control.DeepSeq (($!!), NFData)
 
 
 -- split a list everywhere `p` is true (discard the matched elements)
@@ -108,3 +109,19 @@ fastNub = map head . group . sort
 -- Just like fst but for tuples of size 3
 fst3 :: (a, b, c) -> a
 fst3 (a, _, _) = a
+
+-- loop f on itself until we reach a fixpoint
+fixpoint :: (Eq a) => (a -> a) -> a -> a
+fixpoint f orig =
+  if f orig == orig
+  then orig
+  else fixpoint f (f orig)
+
+-- loop f on itself x times
+loop :: NFData a => Int -> (a -> a) -> a -> a
+loop 0 _ init = init
+loop n f init = loop (n - 1) f $!! f init
+-- loop i f init =
+--   foldl (\x _ -> f x)
+--         init
+--         [1 .. i]
