@@ -28,77 +28,88 @@ extra-source-files: README.md
 executable aoc01
     main-is:            AoC01.hs
     other-modules:      Common Utils
-    build-depends:      base ^>=4.15.1.0
+    build-depends:      base ^>=4.15.1.0,
+                        deepseq
     hs-source-dirs:     app
     default-language:   Haskell2010
 
 executable aoc02
     main-is:            AoC02.hs
     other-modules:      Common Utils
-    build-depends:      base ^>=4.15.1.0
+    build-depends:      base ^>=4.15.1.0,
+                        deepseq
     hs-source-dirs:     app
     default-language:   Haskell2010
 
 executable aoc03
     main-is:            AoC03.hs
     other-modules:      Common Utils
-    build-depends:      base ^>=4.15.1.0
+    build-depends:      base ^>=4.15.1.0,
+                        deepseq
     hs-source-dirs:     app
     default-language:   Haskell2010
 
 executable aoc04
     main-is:            AoC04.hs
     other-modules:      Common Utils
-    build-depends:      base ^>=4.15.1.0
+    build-depends:      base ^>=4.15.1.0,
+                        deepseq
     hs-source-dirs:     app
     default-language:   Haskell2010
 
 executable aoc05
     main-is:            AoC05.hs
     other-modules:      Common Utils
-    build-depends:      base ^>=4.15.1.0
+    build-depends:      base ^>=4.15.1.0,
+                        deepseq
     hs-source-dirs:     app
     default-language:   Haskell2010
 
 executable aoc06
     main-is:            AoC06.hs
     other-modules:      Common Utils
-    build-depends:      base ^>=4.15.1.0
+    build-depends:      base ^>=4.15.1.0,
+                        deepseq
     hs-source-dirs:     app
     default-language:   Haskell2010
 
 executable aoc07
     main-is:            AoC07.hs
     other-modules:      Common Utils
-    build-depends:      base ^>=4.15.1.0
+    build-depends:      base ^>=4.15.1.0,
+                        deepseq
     hs-source-dirs:     app
     default-language:   Haskell2010
 
 executable aoc08
     main-is:            AoC08.hs
     other-modules:      Common Utils
-    build-depends:      base ^>=4.15.1.0
+    build-depends:      base ^>=4.15.1.0,
+                        deepseq
     hs-source-dirs:     app
     default-language:   Haskell2010
 
 executable aoc09
     main-is:            AoC09.hs
     other-modules:      Common Utils
-    build-depends:      base ^>=4.15.1.0
+    build-depends:      base ^>=4.15.1.0,
+                        deepseq
     hs-source-dirs:     app
     default-language:   Haskell2010
 
 executable aoc10
     main-is:            AoC10.hs
     other-modules:      Common Utils
-    build-depends:      base ^>=4.15.1.0
+    build-depends:      base ^>=4.15.1.0,
+                        deepseq
     hs-source-dirs:     app
     default-language:   Haskell2010
 
 executable aoc11
     main-is:            AoC11.hs
     other-modules:      Common Utils
-    build-depends:      base ^>=4.15.1.0
+    build-depends:      base ^>=4.15.1.0,
+                        deepseq
     hs-source-dirs:     app
     default-language:   Haskell2010
 

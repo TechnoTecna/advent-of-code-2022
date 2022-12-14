@@ -63,7 +63,7 @@ f1 ((xs, ys), (xe, ye), elevs) =
 type Result2 = Int
 
 oneLine2 :: [(Int, Int)] -> [(Int, Int)]
-oneLine2 lnP =
+oneLine2 =
   map
     ( \[(pe, pd), (ce, cd), (ne, nd)] ->
         ( ce,
