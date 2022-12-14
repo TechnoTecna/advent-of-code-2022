@@ -7,7 +7,7 @@ module Utils
   where
 
 import Data.List (sort, group)
-import Control.DeepSeq (($!!), NFData)
+import Control.DeepSeq (($!!), NFData, force)
 
 
 -- split a list everywhere `p` is true (discard the matched elements)
@@ -111,11 +111,11 @@ fst3 :: (a, b, c) -> a
 fst3 (a, _, _) = a
 
 -- loop f on itself until we reach a fixpoint
-fixpoint :: (Eq a) => (a -> a) -> a -> a
-fixpoint f orig =
-  if f orig == orig
-  then orig
-  else fixpoint f (f orig)
+fixpoint :: (Eq a, NFData a) => (a -> a) -> a -> a
+fixpoint f orig
+  | new == orig = orig
+  | otherwise = fixpoint f new
+  where new = force (f orig)
 
 -- loop f on itself x times
 loop :: NFData a => Int -> (a -> a) -> a -> a
