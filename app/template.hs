@@ -2,7 +2,6 @@ module Main where
 
 import Common
 
-
 -- Input parsing
 type Input = ()
 
@@ -22,5 +21,5 @@ f2 :: Input -> Result2
 f2 = undefined
 
 -- Main
-main :: IO()
+main :: IO ()
 main = defMain rawToInput f1 f2

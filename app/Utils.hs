@@ -1,23 +1,35 @@
 {-# LANGUAGE GADTs #-}
 
 module Utils
-  ( splitWhen, first, second, both, rotate, chunksOf, setList, slidingWin,
-    {-Set (..), addS, elemS, toListS, fromListS, mapS,-} dumbNorm, fastNub,
-    fst3, fixpoint, loop )
-  where
+  ( splitWhen,
+    first,
+    second,
+    both,
+    rotate,
+    chunksOf,
+    setList,
+    slidingWin,
+    {-Set (..), addS, elemS, toListS, fromListS, mapS,-} dumbNorm,
+    fastNub,
+    fst3,
+    fixpoint,
+    fixcount,
+    loop,
+  )
+where
 
-import Data.List (sort, group)
-import Control.DeepSeq (($!!), NFData, force)
-
+import Control.DeepSeq (NFData, force, ($!!))
+import Data.List (group, sort)
 
 -- split a list everywhere `p` is true (discard the matched elements)
 -- (just like `split` in python).
 -- splitWhen (== '.') "red.blue.yellow" -> ["red", "blue", "yellow"]
 splitWhen :: (a -> Bool) -> [a] -> [[a]]
 splitWhen p s = case dropWhile p s of
-                  [] -> []
-                  t  -> w : splitWhen p t2
-                    where (w, t2) = break p t
+  [] -> []
+  t -> w : splitWhen p t2
+    where
+      (w, t2) = break p t
 
 -- apply f to the left side of a pair
 first :: (a -> a') -> (a, b) -> (a', b)
@@ -43,7 +55,8 @@ chunksOf n l = take n l : chunksOf n (drop n l)
 
 -- Unsafe way to modify a list. Apply f to the nth element of the list
 setList :: Int -> (a -> a) -> [a] -> [a]
-setList n f l = take n l ++ [f (l!!n)] ++ drop (n+1) l
+setList 0 f (h : l) = f h : l
+setList n f (h : l) = h : setList (n - 1) f l
 
 -- "Sliding Window"
 -- Gives you the succesives slices you would get with a sliding window of size
@@ -53,7 +66,6 @@ setList n f l = take n l ++ [f (l!!n)] ++ drop (n+1) l
 slidingWin :: Int -> [a] -> [[a]]
 slidingWin sz lst =
   scanl (\acc x -> tail acc ++ [x]) (take sz lst) (drop sz lst)
-
 
 -- Set data type implemented as a tree (necesitate to have an order on youre
 -- type parameter)
@@ -91,7 +103,6 @@ slidingWin sz lst =
 -- mapS f Leaf = Leaf
 -- mapS f (Branch x lft rgt) = Branch (f x) (mapS f lft) (mapS f rgt)
 
-
 -- "normalise" a number to 1 or -1 (or 0 if 0). Usefull for "step by step"
 -- movement
 dumbNorm :: Int -> Int
@@ -115,12 +126,21 @@ fixpoint :: (Eq a, NFData a) => (a -> a) -> a -> a
 fixpoint f orig
   | new == orig = orig
   | otherwise = fixpoint f new
-  where new = force (f orig)
+  where
+    new = force (f orig)
+
+fixcount :: (Eq a, NFData a) => (a -> a) -> Int -> a -> (Int, a)
+fixcount f n orig
+  | new == orig = (n, orig)
+  | otherwise = fixcount f (n + 1) new
+  where
+    new = force (f orig)
 
 -- loop f on itself x times
 loop :: NFData a => Int -> (a -> a) -> a -> a
 loop 0 _ init = init
 loop n f init = loop (n - 1) f $!! f init
+
 -- loop i f init =
 --   foldl (\x _ -> f x)
 --         init
