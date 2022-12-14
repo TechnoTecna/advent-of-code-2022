@@ -4,7 +4,6 @@ import Common
 import Data.Maybe (fromJust)
 import Utils as U
 
-
 -- Input parsing
 data Move = R | U | L | D
   deriving (Eq, Show)
@@ -13,13 +12,13 @@ type Input = [(Move, Int)]
 
 rawToInput :: String -> Input
 rawToInput =
-  map (
-                             -- ("R", 4) -> (R, 4)
-    U.first (fromJust . flip lookup [("R", R), ("U", U), ("L", L), ("D", D)])
-    . U.second (read . tail) -- ("R", 4)
-    . break (== ' ')         -- "R 4" -> ("R", " 4")
-  )       -- ["R 4", "U 4", "L 3"] -> [(R,4), (U,4), (L,3)]
-  . lines -- "R 4\nU 4\nL 3\n" -> ["R 4", "U 4", "L 3"]
+  map
+    ( -- ("R", 4) -> (R, 4)
+      U.first (fromJust . flip lookup [("R", R), ("U", U), ("L", L), ("D", D)])
+        . U.second (read . tail) -- ("R", 4)
+        . break (== ' ') -- "R 4" -> ("R", " 4")
+    ) -- ["R 4", "U 4", "L 3"] -> [(R,4), (U,4), (L,3)]
+    . lines -- "R 4\nU 4\nL 3\n" -> ["R 4", "U 4", "L 3"]
 
 -- Part1
 type Result1 = Int
@@ -29,10 +28,10 @@ type Result1 = Int
 newPos :: (Int, Int) -> Move -> (Int, Int)
 newPos (x, y) mv =
   case mv of
-    R -> (x+1, y)
-    U -> (x, y+1)
-    L -> (x-1, y)
-    D -> (x, y-1)
+    R -> (x + 1, y)
+    U -> (x, y + 1)
+    L -> (x - 1, y)
+    D -> (x, y - 1)
 
 -- toPos (0,0) [(R,4),(U,4),(L,3)] -> [(0,0),(4,0),(4,4),(1,4)]
 toPos :: (Int, Int) -> [Move] -> [(Int, Int)]
@@ -67,27 +66,28 @@ traceAll = scanl traceOne
 
 f1 :: Input -> Result1
 f1 =
-  length            -- count unique positions
-  . U.fastNub       -- eliminate duplicates
-  . traceAll (0, 0) -- Path of tail following head ([(0,0),(0,0),(1,0),...])
-  . toPos (0, 0)    --  [R,R,R,R,U] -> [(0,0),(1,0),(2,0),(3,0),(4,0),(4,1)]
-  . stepByStep      -- [(R,4),(U,4),(L,3)] -> [R,R,R,R,U,U,U,U,L,L,L]
+  length -- count unique positions
+    . U.fastNub -- eliminate duplicates
+    . traceAll (0, 0) -- Path of tail following head ([(0,0),(0,0),(1,0),...])
+    . toPos (0, 0) --  [R,R,R,R,U] -> [(0,0),(1,0),(2,0),(3,0),(4,0),(4,1)]
+    . stepByStep -- [(R,4),(U,4),(L,3)] -> [R,R,R,R,U,U,U,U,L,L,L]
 
 -- Part2
 type Result2 = Int
 
 f2 :: Input -> Result2
 f2 input =
-  length      -- count unique positions
-  $ U.fastNub -- eliminate duplicates
-  -- apply traceAll successivly: calculate all position of 1 following Head then
-  -- use those positions as head position followed by 2 and so on util 9
-  $ foldl (\x _ -> traceAll (0, 0) x)
-          (toPos (0, 0) $ stepByStep input) -- path of the head
-          -- Note that the only usefull thing about this list is its length.
-          -- we discard its content.
-          (replicate 9 [])     -- [[],[],[],[],[],[],[],[],[]]
+  length -- count unique positions
+    . U.fastNub -- eliminate duplicates
+    -- apply traceAll successivly: calculate all position of 1 following Head
+    -- then use those positions as head position followed by 2 and so on util 9
+    $ foldl
+      (\x _ -> traceAll (0, 0) x)
+      (toPos (0, 0) $ stepByStep input) -- path of the head
+      -- Note that the only usefull thing about this list is its length.
+      -- we discard its content.
+      (replicate 9 []) -- [[],[],[],[],[],[],[],[],[]]
 
 -- Main
-main :: IO()
+main :: IO ()
 main = defMain rawToInput f1 f2

@@ -1,11 +1,10 @@
 module Main where
 
-import System.Environment (getArgs)
-import System.IO (readFile)
 import Common
 import Data.List (intercalate)
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Utils as U
-
 
 -- Input parsing
 data Inst = Noop | AddX Int
@@ -20,16 +19,16 @@ type Input = [Inst]
 parseOp :: String -> Inst
 parseOp "noop" = Noop
 parseOp op =
-  AddX                 -- 3 -> AddX 3
-  . read               -- "3" -> 3
-  . tail               -- " 3" -> "3"
-  . dropWhile (/= ' ') -- "addx 3" -> " 3"
-  $ op                 -- "addx 3"
+  AddX -- 3 -> AddX 3
+    . read -- "3" -> 3
+    . tail -- " 3" -> "3"
+    . dropWhile (/= ' ') -- "addx 3" -> " 3"
+    $ op -- "addx 3"
 
 rawToInput :: String -> Input
 rawToInput =
   map parseOp -- ["addx 1", "addx 2", "noop"] -> [AddX 1, AddX 2, Noop]
-  . lines     -- "addx 1\naddx 2\nnoop" -> ["addx 1", "addx 2", "noop"]
+    . lines -- "addx 1\naddx 2\nnoop" -> ["addx 1", "addx 2", "noop"]
 
 -- Part1
 type Result1 = Int
@@ -57,14 +56,14 @@ traceX = scanl exe
 
 f1 :: Input -> Result1
 f1 =
-  sum                    -- sum everything
-                         -- multiply all value by there cycle numbers
-  . zipWith (*) [20 + 40*k | k <- [0 ..]]
-  . map head             -- [[21,..],[19,..]..] -> [21,19, ...]
-  . U.chunksOf 40        -- list in chuncks of length 40 ([[21,..],[19,..]..])
-  . drop 19              -- discard the 19 first elements
-  . traceX 1             -- [Noop,AddX 15,Noop,AddX -11] -> [1,16,16,5]
-  . concatMap toOneCycle -- [AddX 15,AddX -11] -> [Noop,AddX 15,Noop,AddX -11]
+  sum -- sum everything
+  -- multiply all value by there cycle numbers
+    . zipWith (*) [20 + 40 * k | k <- [0 ..]]
+    . map head -- [[21,..],[19,..]..] -> [21,19, ...]
+    . U.chunksOf 40 -- list in chuncks of length 40 ([[21,..],[19,..]..])
+    . drop 19 -- discard the 19 first elements
+    . traceX 1 -- [Noop,AddX 15,Noop,AddX -11] -> [1,16,16,5]
+    . concatMap toOneCycle -- [AddX 15,AddX -11] -> [Noop,AddX 15,Noop,AddX -11]
 
 -- Part2
 type Result2 = String
@@ -82,17 +81,17 @@ touchSprite crt spt = (<= 1) . abs $ crt - spt
 -- the last cycle should not generate a value.
 f2 :: Input -> Result2
 f2 =
-  intercalate "\n"       -- display lines stacked vertically (draw the screen)
-  . chunksOf 40          -- cut the one line into lines of length 40
-                         -- draw the image on one line
-  . map (\x -> if x then '#' else '.')
-                         -- for every cyle tell you if you should draw or not
-  . zipWith touchSprite [n `mod` 40 | n <- [0 ..]]
-  . traceX 1             -- [Noop,AddX 15,Noop,AddX -11] -> [1,16,16,5]
-  . concatMap toOneCycle -- [AddX 15,AddX -11] -> [Noop,AddX 15,Noop,AddX -11]
+  intercalate "\n" -- display lines stacked vertically (draw the screen)
+    . chunksOf 40 -- cut the one line into lines of length 40
+    -- draw the image on one line
+    . map (\x -> if x then '#' else '.')
+    -- for every cyle tell you if you should draw or not
+    . zipWith touchSprite [n `mod` 40 | n <- [0 ..]]
+    . traceX 1 -- [Noop,AddX 15,Noop,AddX -11] -> [1,16,16,5]
+    . concatMap toOneCycle -- [AddX 15,AddX -11] -> [Noop,AddX 15,Noop,AddX -11]
 
 -- Main
-main :: IO()
+main :: IO ()
 main = do
   raw <- readFile . head =<< getArgs
   print <$> f1 $ rawToInput raw
