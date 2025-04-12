@@ -33,7 +33,7 @@ newPos (x, y) mv =
     L -> (x - 1, y)
     D -> (x, y - 1)
 
--- toPos (0,0) [(R,4),(U,4),(L,3)] -> [(0,0),(4,0),(4,4),(1,4)]
+-- toPos (0,0) [R,U,L] -> [(0,0),(1,0),(1,1),(0,1)]
 toPos :: (Int, Int) -> [Move] -> [(Int, Int)]
 toPos = scanl newPos
 
@@ -67,7 +67,7 @@ traceAll = scanl traceOne
 f1 :: Input -> Result1
 f1 =
   length -- count unique positions
-    . U.fastNub -- eliminate duplicates
+    . U.fastNub -- eliminate duplicates ([(0,0),(0,0),(1,0)] -> [(0,0),(1,0)])
     . traceAll (0, 0) -- Path of tail following head ([(0,0),(0,0),(1,0),...])
     . toPos (0, 0) --  [R,R,R,R,U] -> [(0,0),(1,0),(2,0),(3,0),(4,0),(4,1)]
     . stepByStep -- [(R,4),(U,4),(L,3)] -> [R,R,R,R,U,U,U,U,L,L,L]

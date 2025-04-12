@@ -129,6 +129,7 @@ fixpoint f orig
   where
     new = force (f orig)
 
+-- Like fixpoint but also return the number of iteration it took reach fixpoint.
 fixcount :: (Eq a, NFData a) => (a -> a) -> Int -> a -> (Int, a)
 fixcount f n orig
   | new == orig = (n, orig)
