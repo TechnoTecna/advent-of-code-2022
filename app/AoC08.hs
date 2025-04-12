@@ -38,14 +38,14 @@ f1 patch =
   -- [[T,T,F,T,F],[T,T,T,F,F], ...] -> [3, 3, ...]
   $
     map (sum . map fromEnum)
-    -- we accumulate every visibility map from each pov with a bi OR to have an
-    -- absolute visibility map
+    -- we accumulate every visibility map from each POV with a bitwise OR to
+    -- have an absolute visibility map
     -- [[[T,F,F,T,F],[T,T,F,F,F], ...],[[T,T,F,F,F],[T,F,T,F,F], ...], ...]
     -- ->
     -- [[T,T,F,T,F],[T,T,T,F,F], ...]
     $
       foldr1
-        (zipWith $ zipWith (||)) -- [[T,F,F,T,F],[T,]]
+        (zipWith $ zipWith (||)) -- [[T,T,F,T,F],[T,]]
         -- [[[T,F,F,T,F],[T,T,F,F,F], ...],[[T,T,F,F,F],[T,F,T,F,F], ...], ...]
         [west, east, north, south]
   where
@@ -68,7 +68,7 @@ forwardVis (h : t) = nbVis : forwardVis t
   where
     -- we count all the tree we can see (see next (or last really) comment)
     nbVis = length smaller + fromEnum (not $ null taller)
-    -- from the current tree you can see all trees in smaller plus the firs in
+    -- from the current tree you can see all trees in smaller plus the first in
     -- taller
     (smaller, taller) = break (>= h) t
 
